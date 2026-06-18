@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RentalPackage;
-use App\Models\Game;
 use App\Models\Console;
+use App\Models\Game;
+use App\Models\RentalPackage;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
@@ -12,10 +12,10 @@ class CatalogController extends Controller
     public function packages(Request $request)
     {
         $consoles = Console::all();
-        $query = RentalPackage::with('console');
-        
+        $query = RentalPackage::published()->with('console');
+
         if ($request->has('console')) {
-            $query->whereHas('console', function($q) use ($request) {
+            $query->whereHas('console', function ($q) use ($request) {
                 $q->where('slug', $request->console);
             });
         }
@@ -28,10 +28,10 @@ class CatalogController extends Controller
     public function games(Request $request)
     {
         $consoles = Console::all();
-        $query = Game::with('console');
+        $query = Game::published()->with('console');
 
         if ($request->has('console')) {
-            $query->whereHas('console', function($q) use ($request) {
+            $query->whereHas('console', function ($q) use ($request) {
                 $q->where('slug', $request->console);
             });
         }
