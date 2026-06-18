@@ -14,5 +14,22 @@ class Page extends Model
         'slug',
         'image',
         'content',
+        'show_in_navigation',
+        'sort_order',
+        'is_published',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'show_in_navigation' => 'boolean',
+            'is_published' => 'boolean',
+            'sort_order' => 'integer',
+        ];
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
 }

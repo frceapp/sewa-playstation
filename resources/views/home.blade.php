@@ -11,11 +11,11 @@
     
     <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 text-center">
         <h1 class="font-heading text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Experience Gaming<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Like Never Before</span>
+            {{ $siteSettings['home_hero_title'] ?? 'Experience Gaming' }}<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">{{ $siteSettings['home_hero_highlight'] ?? 'Like Never Before' }}</span>
         </h1>
         <p class="mt-6 text-lg leading-8 text-gray-300 max-w-2xl mx-auto">
-            Sewa konsol PlayStation terbaru dengan harga terjangkau. Pilihan game lengkap dan konsol selalu dalam kondisi prima. Siap menemani waktu luang Anda.
+            {{ $siteSettings['home_hero_description'] ?? 'Sewa konsol PlayStation terbaru dengan harga terjangkau. Pilihan game lengkap dan konsol selalu dalam kondisi prima.' }}
         </p>
         <div class="mt-10 flex items-center justify-center gap-x-6">
             <a href="{{ route('catalog.packages') }}" class="rounded-full bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 hover:bg-blue-500 hover:scale-105 transition-all duration-200">
@@ -32,8 +32,8 @@
 <div class="py-24 sm:py-32 bg-gray-900">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
-            <h2 class="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">Paket Pilihan Kami</h2>
-            <p class="mt-4 text-lg text-gray-400">Pilih paket sewa terbaik yang sesuai dengan kebutuhan Anda.</p>
+            <h2 class="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">{{ $siteSettings['home_packages_title'] ?? 'Paket Pilihan Kami' }}</h2>
+            <p class="mt-4 text-lg text-gray-400">{{ $siteSettings['home_packages_description'] ?? 'Pilih paket sewa terbaik yang sesuai dengan kebutuhan Anda.' }}</p>
         </div>
         
         <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">

@@ -15,7 +15,18 @@ class Game extends Model
         'slug',
         'image',
         'genre',
+        'is_published',
     ];
+
+    protected function casts(): array
+    {
+        return ['is_published' => 'boolean'];
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
 
     public function console()
     {

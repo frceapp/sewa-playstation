@@ -7,8 +7,8 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="md:flex md:items-center md:justify-between mb-12">
             <div>
-                <h2 class="font-heading text-4xl font-bold tracking-tight text-white sm:text-5xl">Daftar Game</h2>
-                <p class="mt-4 text-lg leading-8 text-gray-400">Jelajahi koleksi game lengkap kami.</p>
+                <h2 class="font-heading text-4xl font-bold tracking-tight text-white sm:text-5xl">{{ $siteSettings['games_title'] ?? 'Daftar Game' }}</h2>
+                <p class="mt-4 text-lg leading-8 text-gray-400">{{ $siteSettings['games_description'] ?? 'Jelajahi koleksi game lengkap kami.' }}</p>
             </div>
             <div class="mt-6 md:mt-0">
                 <form action="{{ route('catalog.games') }}" method="GET" class="flex gap-2">

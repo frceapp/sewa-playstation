@@ -14,7 +14,21 @@ class RentalPackage extends Model
         'name',
         'price',
         'features',
+        'is_published',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'integer',
+            'is_published' => 'boolean',
+        ];
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
+    }
 
     public function console()
     {

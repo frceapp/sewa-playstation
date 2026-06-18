@@ -6,8 +6,8 @@
 <div class="bg-gray-900 py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
-            <h2 class="font-heading text-4xl font-bold tracking-tight text-white sm:text-5xl">Katalog Paket Sewa</h2>
-            <p class="mt-4 text-lg leading-8 text-gray-400">Temukan paket sewa PlayStation yang sesuai dengan kebutuhan Anda. Filter berdasarkan konsol pilihan Anda.</p>
+            <h2 class="font-heading text-4xl font-bold tracking-tight text-white sm:text-5xl">{{ $siteSettings['packages_title'] ?? 'Katalog Paket Sewa' }}</h2>
+            <p class="mt-4 text-lg leading-8 text-gray-400">{{ $siteSettings['packages_description'] ?? 'Temukan paket sewa PlayStation yang sesuai dengan kebutuhan Anda.' }}</p>
         </div>
 
         <!-- Filter Form -->

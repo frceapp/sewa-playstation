@@ -17,8 +17,8 @@
                         <rect width="100%" height="100%" stroke-width="0" fill="url(#54f88622-e7f8-4f1d-aaf9-c2f5e46dd1f2)" />
                     </svg>
                 </div>
-                <h2 class="font-heading text-4xl font-bold tracking-tight text-white">Hubungi Kami</h2>
-                <p class="mt-6 text-lg leading-8 text-gray-300">Punya pertanyaan tentang paket sewa? Ingin booking untuk akhir pekan ini? Jangan ragu untuk menghubungi kami melalui form di samping atau melalui kontak di bawah ini.</p>
+                <h2 class="font-heading text-4xl font-bold tracking-tight text-white">{{ $siteSettings['contact_title'] ?? 'Hubungi Kami' }}</h2>
+                <p class="mt-6 text-lg leading-8 text-gray-300">{{ $siteSettings['contact_description'] ?? 'Punya pertanyaan tentang paket sewa? Hubungi kami melalui formulir ini.' }}</p>
                 <dl class="mt-10 space-y-4 text-base leading-7 text-gray-300">
                     <div class="flex gap-x-4">
                         <dt class="flex-none">
@@ -27,7 +27,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
                             </svg>
                         </dt>
-                        <dd>Jl. Gaming No. 99<br>Jakarta Selatan, 12345</dd>
+                        <dd class="whitespace-pre-line">{{ $siteSettings['contact_address'] ?? "Jl. Gaming No. 99\nJakarta Selatan, 12345" }}</dd>
                     </div>
                     <div class="flex gap-x-4">
                         <dt class="flex-none">
@@ -36,7 +36,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.896-1.596-5.48-4.18-7.076-7.076l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                             </svg>
                         </dt>
-                        <dd><a class="hover:text-white" href="tel:+628123456789">+62 812-3456-7890</a></dd>
+                        <dd><a class="hover:text-white" href="tel:{{ preg_replace('/[^0-9+]/', '', $siteSettings['contact_phone'] ?? '+628123456789') }}">{{ $siteSettings['contact_phone'] ?? '+62 812-3456-7890' }}</a></dd>
                     </div>
                     <div class="flex gap-x-4">
                         <dt class="flex-none">
@@ -45,7 +45,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                             </svg>
                         </dt>
-                        <dd><a class="hover:text-white" href="mailto:halo@psrental.com">halo@psrental.com</a></dd>
+                        <dd><a class="hover:text-white" href="mailto:{{ $siteSettings['contact_email'] ?? 'halo@psrental.com' }}">{{ $siteSettings['contact_email'] ?? 'halo@psrental.com' }}</a></dd>
                     </div>
                 </dl>
             </div>
