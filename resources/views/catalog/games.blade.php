@@ -25,6 +25,13 @@
             </div>
         </div>
 
+        @if($selectedConsole?->description)
+            <div class="mb-12 rounded-2xl border border-blue-500/20 bg-blue-500/10 p-5">
+                <h3 class="font-heading text-lg font-semibold text-white">{{ $selectedConsole->name }}</h3>
+                <p class="mt-2 text-sm leading-6 text-blue-100">{{ $selectedConsole->description }}</p>
+            </div>
+        @endif
+
         <!-- Games Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             @forelse($games as $game)

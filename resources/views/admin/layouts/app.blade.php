@@ -22,21 +22,26 @@
                         <span class="text-lg font-bold text-white">PS Rental CMS</span>
                     </span>
                 </a>
-                <button @click="sidebarOpen = false" class="text-slate-400 lg:hidden" aria-label="Tutup menu">✕</button>
+                <button @click="sidebarOpen = false" class="text-slate-400 lg:hidden" aria-label="Tutup menu">×</button>
             </div>
 
             @php
                 $navItems = [
                     ['route' => 'admin.dashboard', 'pattern' => 'admin.dashboard', 'label' => 'Ringkasan', 'icon' => '⌂'],
                     ['route' => 'admin.pages.index', 'pattern' => 'admin.pages.*', 'label' => 'Halaman', 'icon' => '▤'],
-                    ['route' => 'admin.packages.index', 'pattern' => 'admin.packages.*', 'label' => 'Paket Sewa', 'icon' => '◈'],
-                    ['route' => 'admin.games.index', 'pattern' => 'admin.games.*', 'label' => 'Daftar Game', 'icon' => '▦'],
-                    ['route' => 'admin.consoles.index', 'pattern' => 'admin.consoles.*', 'label' => 'Konsol', 'icon' => '▣'],
                     ['route' => 'admin.messages.index', 'pattern' => 'admin.messages.*', 'label' => 'Pesan Masuk', 'icon' => '✉'],
                     ['route' => 'admin.settings.edit', 'pattern' => 'admin.settings.*', 'label' => 'Pengaturan Situs', 'icon' => '⚙'],
                 ];
+
+                $catalogItems = [
+                    ['route' => 'admin.packages.index', 'pattern' => 'admin.packages.*', 'label' => 'Paket Sewa'],
+                    ['route' => 'admin.games.index', 'pattern' => 'admin.games.*', 'label' => 'Daftar Game'],
+                    ['route' => 'admin.consoles.index', 'pattern' => 'admin.consoles.*', 'label' => 'Konsol'],
+                ];
+
+                $catalogActive = request()->routeIs('admin.packages.*', 'admin.games.*', 'admin.consoles.*');
             @endphp
-            <nav class="flex-1 space-y-1 overflow-y-auto p-4">
+            <nav class="flex-1 space-y-1 overflow-y-auto p-4" x-data="{ catalogMenuOpen: {{ $catalogActive ? 'true' : 'false' }} }">
                 @foreach($navItems as $item)
                     <a href="{{ route($item['route']) }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition {{ request()->routeIs($item['pattern']) ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                         <span class="w-5 text-center text-base">{{ $item['icon'] }}</span>
@@ -46,6 +51,24 @@
                         @endif
                     </a>
                 @endforeach
+
+                <div>
+                    <button type="button" @click="catalogMenuOpen = ! catalogMenuOpen" class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition {{ $catalogActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                        <span class="w-5 text-center text-base">▦</span>
+                        <span class="flex-1 text-left">Katalog</span>
+                        <svg class="h-4 w-4 transition" :class="{ 'rotate-180': catalogMenuOpen }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="catalogMenuOpen" class="mt-1 space-y-1 pl-8" style="display: {{ $catalogActive ? 'block' : 'none' }};">
+                        @foreach($catalogItems as $item)
+                            <a href="{{ route($item['route']) }}" class="block rounded-lg px-4 py-2 text-sm font-medium transition {{ request()->routeIs($item['pattern']) ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-800 hover:text-slate-200' }}">
+                                {{ $item['label'] }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </nav>
 
             <div class="border-t border-slate-800 p-4">
@@ -86,7 +109,9 @@
                     <div class="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
                         <p class="font-semibold">Periksa kembali data berikut:</p>
                         <ul class="mt-2 list-disc pl-5">
-                            @foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
                         </ul>
                     </div>
                 @endif

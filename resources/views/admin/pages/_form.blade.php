@@ -15,8 +15,8 @@
                 </div>
                 <div class="sm:col-span-2">
                     <label for="content" class="mb-2 block text-sm font-semibold text-slate-300">Konten</label>
-                    <textarea id="content" name="content" rows="16" required class="w-full rounded-xl border-slate-700 bg-slate-950 font-mono text-sm text-white focus:border-blue-500 focus:ring-blue-500" placeholder="Tulis konten HTML halaman...">{{ old('content', $page->content) }}</textarea>
-                    <p class="mt-2 text-xs text-slate-500">Mendukung HTML, misalnya &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, dan &lt;strong&gt;.</p>
+                    <textarea id="content" name="content" rows="16" required class="w-full rounded-xl border-slate-700 bg-slate-950 text-sm text-white focus:border-blue-500 focus:ring-blue-500" placeholder="Tulis konten halaman dengan teks biasa. Pisahkan paragraf dengan baris kosong.">{{ old('content', $page->plain_content) }}</textarea>
+                    <p class="mt-2 text-xs text-slate-500">Tidak perlu menulis HTML. Gunakan baris kosong untuk paragraf dan awali item daftar dengan tanda - jika diperlukan.</p>
                 </div>
             </div>
         </div>

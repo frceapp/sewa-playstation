@@ -20,13 +20,13 @@ class PageSeeder extends Seeder
         Page::create([
             'title' => 'Syarat & Ketentuan',
             'slug' => 'syarat-ketentuan',
-            'content' => '<h2>Syarat Umum</h2><p>Penyewa wajib memberikan jaminan berupa KTP asli yang masih berlaku.</p><h2>Ketentuan Kerusakan</h2><p>Segala bentuk kerusakan yang terjadi selama masa sewa menjadi tanggung jawab penyewa sepenuhnya.</p>',
+            'content' => "Syarat Umum\n\nPenyewa wajib memberikan jaminan berupa KTP asli yang masih berlaku.\n\nKetentuan Kerusakan\n\nSegala bentuk kerusakan yang terjadi selama masa sewa menjadi tanggung jawab penyewa sepenuhnya.",
         ]);
 
         Page::create([
             'title' => 'Tentang Kami',
             'slug' => 'tentang-kami',
-            'content' => '<p>Kami adalah penyedia layanan sewa PlayStation terpercaya yang beroperasi sejak tahun 2023. Kami selalu memastikan unit konsol yang kami sewakan dalam kondisi prima, bersih, dan siap main.</p>',
+            'content' => 'Kami adalah penyedia layanan sewa PlayStation terpercaya yang beroperasi sejak tahun 2023. Kami selalu memastikan unit konsol yang kami sewakan dalam kondisi prima, bersih, dan siap main.',
         ]);
 
         // 2. Consoles

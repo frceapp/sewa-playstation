@@ -27,6 +27,13 @@
             </form>
         </div>
 
+        @if($selectedConsole?->description)
+            <div class="mx-auto mt-8 max-w-3xl rounded-2xl border border-blue-500/20 bg-blue-500/10 p-5 text-center">
+                <h3 class="font-heading text-lg font-semibold text-white">{{ $selectedConsole->name }}</h3>
+                <p class="mt-2 text-sm leading-6 text-blue-100">{{ $selectedConsole->description }}</p>
+            </div>
+        @endif
+
         <!-- Packages Grid -->
         <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             @forelse($packages as $package)
@@ -39,15 +46,18 @@
                         <h3 class="font-heading text-xl font-semibold leading-8 text-white">{{ $package->name }}</h3>
                         <span class="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold leading-5 text-blue-400">{{ $package->console->name }}</span>
                     </div>
+                    @if($package->console?->description)
+                        <p class="mt-3 text-sm leading-6 text-gray-400">{{ $package->console->description }}</p>
+                    @endif
                     <p class="mt-6 flex items-baseline gap-x-1">
                         <span class="text-4xl font-bold tracking-tight text-white">Rp{{ number_format($package->price, 0, ',', '.') }}</span>
                         <span class="text-sm font-semibold leading-6 text-gray-400">/hari</span>
                     </p>
                     <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-300">
-                        @foreach(explode(',', $package->features) as $feature)
+                        @foreach($package->feature_items as $feature)
                         <li class="flex gap-x-3">
                             <svg class="h-6 w-5 flex-none text-blue-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
-                            {{ trim($feature) }}
+                            {{ $feature }}
                         </li>
                         @endforeach
                     </ul>

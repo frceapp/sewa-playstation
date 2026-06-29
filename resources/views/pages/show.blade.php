@@ -15,13 +15,11 @@
         </div>
         @endif
 
-        <!-- Prose for formatting HTML content nicely -->
-        <div class="prose prose-invert prose-blue max-w-none">
-            {!! $page->content !!}
+        <div class="prose prose-invert prose-blue max-w-none whitespace-pre-line">
+            {{ $page->plain_content }}
         </div>
         
-        <!-- If it's empty -->
-        @if(empty($page->content))
+        @if(empty($page->plain_content))
         <div class="text-center py-12 bg-gray-800 rounded-2xl border border-gray-700">
             <p class="text-gray-400">Konten halaman sedang diperbarui.</p>
         </div>

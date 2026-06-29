@@ -25,6 +25,33 @@ class RentalPackage extends Model
         ];
     }
 
+    public function getFeatureItemsAttribute(): array
+    {
+        $features = trim((string) $this->features);
+
+        if ($features === '') {
+            return [];
+        }
+
+        $decodedFeatures = json_decode($features, true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decodedFeatures)) {
+            return collect($decodedFeatures)
+                ->map(fn ($feature) => trim((string) $feature))
+                ->filter()
+                ->values()
+                ->all();
+        }
+
+        $separator = str_contains($features, "\n") ? '/\r\n|\r|\n/' : '/,/';
+
+        return collect(preg_split($separator, $features) ?: [])
+            ->map(fn ($feature) => trim($feature))
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function scopePublished($query)
     {
         return $query->where('is_published', true);

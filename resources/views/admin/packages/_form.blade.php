@@ -1,11 +1,76 @@
+@php
+    $featureValues = old('features', $package->feature_items);
+
+    if (is_string($featureValues)) {
+        $featureValues = preg_split('/\r\n|\r|\n|,/', $featureValues) ?: [];
+    }
+
+    $featureValues = collect($featureValues)
+        ->map(fn ($feature) => trim((string) $feature))
+        ->filter()
+        ->values()
+        ->all();
+
+    if ($featureValues === []) {
+        $featureValues = [''];
+    }
+@endphp
+
 <div class="mx-auto max-w-3xl rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
-    @if($consoles->isEmpty())<div class="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">Tambahkan data konsol terlebih dahulu sebelum membuat paket.</div>@endif
+    @if($consoles->isEmpty())
+        <div class="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">Tambahkan data konsol terlebih dahulu sebelum membuat paket.</div>
+    @endif
+
     <div class="grid gap-5 sm:grid-cols-2">
-        <div class="sm:col-span-2"><label for="name" class="mb-2 block text-sm font-semibold text-slate-300">Nama paket</label><input id="name" name="name" required value="{{ old('name', $package->name) }}" class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" placeholder="Paket PS5 Premium"></div>
-        <div><label for="console_id" class="mb-2 block text-sm font-semibold text-slate-300">Konsol</label><select id="console_id" name="console_id" required class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500"><option value="">Pilih konsol</option>@foreach($consoles as $console)<option value="{{ $console->id }}" @selected(old('console_id', $package->console_id) == $console->id)>{{ $console->name }}</option>@endforeach</select></div>
-        <div><label for="price" class="mb-2 block text-sm font-semibold text-slate-300">Harga per hari (Rp)</label><input type="number" min="0" id="price" name="price" required value="{{ old('price', $package->price) }}" class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" placeholder="150000"></div>
-        <div class="sm:col-span-2"><label for="features" class="mb-2 block text-sm font-semibold text-slate-300">Fasilitas</label><textarea id="features" name="features" rows="5" class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" placeholder="Pisahkan setiap fasilitas dengan koma">{{ old('features', $package->features) }}</textarea><p class="mt-2 text-xs text-slate-500">Contoh: 1 unit PS5, 2 stik, 5 game pilihan, gratis antar</p></div>
-        <label class="sm:col-span-2 flex items-center gap-3"><input type="checkbox" name="is_published" value="1" @checked(old('is_published', $package->exists ? $package->is_published : true)) class="rounded border-slate-600 bg-slate-800 text-blue-600"><span class="text-sm font-semibold text-slate-300">Tampilkan paket di website</span></label>
+        <div class="sm:col-span-2">
+            <label for="name" class="mb-2 block text-sm font-semibold text-slate-300">Nama paket</label>
+            <input id="name" name="name" required value="{{ old('name', $package->name) }}" class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" placeholder="Paket PS5 Premium">
+        </div>
+
+        <div>
+            <label for="console_id" class="mb-2 block text-sm font-semibold text-slate-300">Konsol</label>
+            <select id="console_id" name="console_id" required class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500">
+                <option value="">Pilih konsol</option>
+                @foreach($consoles as $console)
+                    <option value="{{ $console->id }}" @selected(old('console_id', $package->console_id) == $console->id)>{{ $console->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label for="price" class="mb-2 block text-sm font-semibold text-slate-300">Harga per hari (Rp)</label>
+            <input type="number" min="0" id="price" name="price" required value="{{ old('price', $package->price) }}" class="w-full rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" placeholder="150000">
+        </div>
+
+        <div class="sm:col-span-2" x-data="{ features: @js($featureValues) }">
+            <div class="mb-3 flex items-center justify-between gap-3">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-300">Fasilitas</label>
+                    <p class="mt-1 text-xs text-slate-500">Isi satu fasilitas per input agar mudah diedit.</p>
+                </div>
+                <button type="button" @click="features.push('')" class="rounded-lg border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-blue-500 hover:text-white">+ Tambah</button>
+            </div>
+
+            <div class="space-y-3">
+                <template x-for="(feature, index) in features" :key="index">
+                    <div class="flex gap-2">
+                        <input type="text" name="features[]" x-model="features[index]" class="min-w-0 flex-1 rounded-xl border-slate-700 bg-slate-950 text-white focus:border-blue-500 focus:ring-blue-500" :placeholder="`Fasilitas ${index + 1}`">
+                        <button type="button" x-show="features.length > 1" @click="features.splice(index, 1)" class="rounded-xl border border-red-500/30 px-3 text-xs font-semibold text-red-400 hover:bg-red-500/10">Hapus</button>
+                    </div>
+                </template>
+            </div>
+
+            <p class="mt-2 text-xs text-slate-500">Contoh: 1 unit PS5, 2 stik, 5 game pilihan, gratis antar.</p>
+        </div>
+
+        <label class="sm:col-span-2 flex items-center gap-3">
+            <input type="checkbox" name="is_published" value="1" @checked(old('is_published', $package->exists ? $package->is_published : true)) class="rounded border-slate-600 bg-slate-800 text-blue-600">
+            <span class="text-sm font-semibold text-slate-300">Tampilkan paket di website</span>
+        </label>
     </div>
-    <div class="mt-6 flex justify-end gap-3"><a href="{{ route('admin.packages.index') }}" class="rounded-lg border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-300">Batal</a><button @disabled($consoles->isEmpty()) class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50">Simpan Paket</button></div>
+
+    <div class="mt-6 flex justify-end gap-3">
+        <a href="{{ route('admin.packages.index') }}" class="rounded-lg border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-300">Batal</a>
+        <button @disabled($consoles->isEmpty()) class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50">Simpan Paket</button>
+    </div>
 </div>

@@ -51,9 +51,18 @@ class RentalPackageController extends Controller
             'console_id' => ['required', 'exists:consoles,id'],
             'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'integer', 'min:0'],
-            'features' => ['nullable', 'string'],
+            'features' => ['nullable', 'array'],
+            'features.*' => ['nullable', 'string', 'max:255'],
             'is_published' => ['nullable', 'boolean'],
         ]);
+
+        $features = collect($data['features'] ?? [])
+            ->map(fn ($feature) => trim((string) $feature))
+            ->filter()
+            ->values()
+            ->all();
+
+        $data['features'] = $features === [] ? null : json_encode($features, JSON_UNESCAPED_UNICODE);
         $data['is_published'] = $request->boolean('is_published');
 
         return $data;
